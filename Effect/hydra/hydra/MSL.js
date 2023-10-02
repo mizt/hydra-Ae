@@ -1,6 +1,6 @@
 const BUILD = true;
 if(!global["PLUGIN"]) global["PLUGIN"] = "hydra"
-const VERSION = 3.0;
+const VERSION = "Ae";
 
 slider=(value,min,max)=>"slider("+value+","+min+","+max+")";
 
@@ -16,7 +16,8 @@ global["o0"] = {
 	uniforms:{},
 	getTexture:function() {},
 	renderPasses:function(glsl) {
-		require("fs").writeFileSync(PLUGIN+".json","{\n\t\"version\":"+VERSION.toFixed(1)+",\n\t\"metallib\":\""+PLUGIN+".metallib\",\n\t\"uniforms\":"+stringifyWithFunctions(glsl[0].uniforms)+"\n}");
+		const verion = (typeof(VERSION)==="string")?"\""+VERSION+"\"":VERSION.toFixed(1);
+		require("fs").writeFileSync(PLUGIN+".json","{\n\t\"version\":"+verion+",\n\t\"metallib\":\""+PLUGIN+".metallib\",\n\t\"uniforms\":"+stringifyWithFunctions(glsl[0].uniforms)+"\n}");
 		require("fs").writeFileSync(PLUGIN+".metal",glsl[0].frag);
 		if(BUILD) {
 			require("child_process").execSync("xcrun -sdk macosx metal -c ./"+PLUGIN+".metal -o ./"+PLUGIN+".air; xcrun -sdk macosx metallib ./"+PLUGIN+".air -o ./"+PLUGIN+".metallib");
