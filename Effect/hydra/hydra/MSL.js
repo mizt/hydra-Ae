@@ -2,7 +2,7 @@ const BUILD = true;
 if(!global["PLUGIN"]) global["PLUGIN"] = "hydra"
 const VERSION = "Ae";
 
-slider=(value,min,max)=>"slider("+value+","+min+","+max+")";
+global["slider"]=(value,min,max)=>"slider("+value+","+min+","+max+")";
 
 const stringifyWithFunctions = function(object) {
 	return JSON.stringify(object,(k,v) => {
@@ -27,7 +27,8 @@ global["o0"] = {
 	}
 };
 
-for(let k=0; k<4; k++) {
+const SRC = 1;
+for(let k=0; k<SRC; k++) {
 	global["s"+k] = {
 		name:"s"+k,
 		uniforms:{},

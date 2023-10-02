@@ -66,9 +66,14 @@ function formatArguments (userArgs, defaultArgs) {
       if (userArgs[index].transform) typedArg.isUniform = false
 
       if (typeof userArgs[index] === 'function') {
+        
+        console.log("Not support function");
+        process.exit(1);
         typedArg.value = String(userArgs[index]);
-      } else if (userArgs[index].constructor === Array) {
-      //  console.log("is Array")
+      } 
+      else if (userArgs[index].constructor === Array) {
+        console.log("Not support Array")
+        process.exit(1);
         typedArg.value = (context, props, batchId) => seq(userArgs[index])(props)
       }
     } else {
@@ -76,7 +81,7 @@ function formatArguments (userArgs, defaultArgs) {
       typedArg.value = input.default
     }
     // if input is a texture, set unique name for uniform
-    if (input.type === 'texture') {
+    if (input.type==="texture") {
         
         //console.log(typedArg);
         // typedArg.tex = typedArg.value
