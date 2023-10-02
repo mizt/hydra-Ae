@@ -1,6 +1,5 @@
 const BUILD = true;
-const FILENAME = "hydra";
-const OS = ["macosx"]; //,"iphoneos","iphonesimulator"];
+if(!global["PLUGIN"]) global["PLUGIN"] = "hydra"
 const VERSION = 3.0;
 
 slider=(value,min,max)=>"slider("+value+","+min+","+max+")";
@@ -17,13 +16,12 @@ global["o0"] = {
 	uniforms:{},
 	getTexture:function() {},
 	renderPasses:function(glsl) {
-		require("fs").writeFileSync(FILENAME+".json","{\n\t\"version\":"+VERSION.toFixed(1)+",\n\t\"metallib\":\""+FILENAME+".metallib\",\n\t\"uniforms\":"+stringifyWithFunctions(glsl[0].uniforms)+"\n}");
-		require("fs").writeFileSync(FILENAME+".metal",glsl[0].frag);
+		require("fs").writeFileSync(PLUGIN+".json","{\n\t\"version\":"+VERSION.toFixed(1)+",\n\t\"metallib\":\""+PLUGIN+".metallib\",\n\t\"uniforms\":"+stringifyWithFunctions(glsl[0].uniforms)+"\n}");
+		require("fs").writeFileSync(PLUGIN+".metal",glsl[0].frag);
 		if(BUILD) {
-			for(let k=0; k<OS.length; k++) {
-				require("child_process").execSync("xcrun -sdk "+OS[k]+" metal -c ./"+FILENAME+".metal -o ./"+FILENAME+"-"+OS[k]+".air; xcrun -sdk "+OS[k]+" metallib ./"+FILENAME+"-"+OS[k]+".air -o ./"+FILENAME+"-"+OS[k]+".metallib");
-			}
+			require("child_process").execSync("xcrun -sdk macosx metal -c ./"+PLUGIN+".metal -o ./"+PLUGIN+".air; xcrun -sdk macosx metallib ./"+PLUGIN+".air -o ./"+PLUGIN+".metallib");
 			require("child_process").execSync("rm ./*.air");
+			require("child_process").execSync("rm ./*.metal");
 		}
 	}
 };
